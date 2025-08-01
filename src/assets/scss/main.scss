@@ -1,0 +1,131 @@
+@import 'variables';
+@import 'mixins';
+
+// Reset e estilos base
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: $color-text;
+  background-color: $color-background;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-family-heading;
+  margin-bottom: $spacing-md;
+}
+
+// Classes utilitárias
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+}
+
+.btn {
+  @include button-base;
+  
+  &--primary {
+    background-color: $color-primary;
+    color: white;
+    
+    &:hover {
+      background-color: darken($color-primary, 10%);
+    }
+  }
+  
+  &--secondary {
+    background-color: $color-secondary;
+    color: white;
+    
+    &:hover {
+      background-color: darken($color-secondary, 10%);
+    }
+  }
+}
+
+.card {
+  @include card-base;
+}
+
+.form-group {
+  margin-bottom: $spacing-md;
+  
+  label {
+    display: block;
+    margin-bottom: $spacing-xs;
+  }
+  
+  input, textarea {
+    @include input-base;
+  }
+}
+
+// Animações
+.fade-enter-active,
+.fade-leave-active {
+  @include transition;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.slide-enter-from {
+  transform: translateX(100%);
+}
+
+.slide-leave-to {
+  transform: translateX(-100%);
+}
+
+// Layout responsivo
+.grid {
+  display: grid;
+  gap: $spacing-md;
+  
+  @include sm {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @include md {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  @include lg {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+// Componentes comuns
+.loading {
+  @include flex-center;
+  min-height: 200px;
+}
+
+.error-message {
+  color: $color-accent;
+  padding: $spacing-sm;
+  border-radius: $border-radius-sm;
+  margin-bottom: $spacing-md;
+}
+
+.success-message {
+  color: #2ECC71;
+  padding: $spacing-sm;
+  border-radius: $border-radius-sm;
+  margin-bottom: $spacing-md;
+}
