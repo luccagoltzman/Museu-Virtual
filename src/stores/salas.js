@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import { salasService, memoriasService } from '../utils/api.js'
 
 export const useSalasStore = defineStore('salas', {
   state: () => ({
@@ -18,8 +18,7 @@ export const useSalasStore = defineStore('salas', {
     async fetchUserSalas() {
       try {
         this.loading = true
-        // TODO: Integrar com API real
-        const response = await axios.get('/api/salas')
+        const response = await salasService.getAll()
         this.salas = response.data
       } catch (error) {
         this.error = error.response?.data?.message || 'Erro ao carregar salas'
@@ -32,8 +31,7 @@ export const useSalasStore = defineStore('salas', {
     async fetchSalaBySlug(slug) {
       try {
         this.loading = true
-        // TODO: Integrar com API real
-        const response = await axios.get(`/api/salas/${slug}`)
+        const response = await salasService.getSalaBySlug(slug)
         this.currentSala = response.data
       } catch (error) {
         this.error = error.response?.data?.message || 'Erro ao carregar sala'
@@ -46,8 +44,7 @@ export const useSalasStore = defineStore('salas', {
     async createSala(salaData) {
       try {
         this.loading = true
-        // TODO: Integrar com API real
-        const response = await axios.post('/api/salas', salaData)
+        const response = await salasService.create(salaData)
         this.salas.push(response.data)
         return response.data
       } catch (error) {
@@ -61,8 +58,7 @@ export const useSalasStore = defineStore('salas', {
     async addMemoria(salaId, memoriaData) {
       try {
         this.loading = true
-        // TODO: Integrar com API real
-        const response = await axios.post(`/api/salas/${salaId}/memorias`, memoriaData)
+        const response = await memoriasService.create(salaId, memoriaData)
         const salaIndex = this.salas.findIndex(s => s.id === salaId)
         if (salaIndex !== -1) {
           this.salas[salaIndex].memorias.push(response.data)
@@ -82,8 +78,7 @@ export const useSalasStore = defineStore('salas', {
     async removeMemoria(memoriaId) {
       try {
         this.loading = true
-        // TODO: Integrar com API real
-        await axios.delete(`/api/memorias/${memoriaId}`)
+        await memoriasService.delete(memoriaId)
         if (this.currentSala) {
           this.currentSala.memorias = this.currentSala.memorias.filter(m => m.id !== memoriaId)
         }

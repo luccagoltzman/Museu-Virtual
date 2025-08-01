@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { authService } from '../utils/api.js'
 import axios from 'axios'
 
 export const useAuthStore = defineStore('auth', {
@@ -19,8 +20,7 @@ export const useAuthStore = defineStore('auth', {
       try {
         this.loading = true
         this.error = null
-        // TODO: Integrar com API real
-        const response = await axios.post('/api/login', credentials)
+        const response = await authService.login(credentials)
         this.token = response.data.token
         this.user = response.data.user
         localStorage.setItem('token', this.token)
@@ -36,8 +36,9 @@ export const useAuthStore = defineStore('auth', {
       try {
         this.loading = true
         this.error = null
-        // TODO: Integrar com API real
-        const response = await axios.post('/api/register', userData)
+        // Estabelece o cookie CSRF
+        await axios.get('http://localhost:8000/sanctum/csrf-cookie')
+        const response = await authService.register(userData)
         this.token = response.data.token
         this.user = response.data.user
         localStorage.setItem('token', this.token)
@@ -49,10 +50,14 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    logout() {
-      this.user = null
-      this.token = null
-      localStorage.removeItem('token')
+    async logout() {
+      try {
+        await authService.logout()
+      } finally {
+        this.user = null
+        this.token = null
+        localStorage.removeItem('token')
+      }
     }
   }
 })
