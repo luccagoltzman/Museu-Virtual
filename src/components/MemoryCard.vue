@@ -1,8 +1,8 @@
-&lt;template>
-  &lt;div class="memory-card" :class="{ 'is-editing': isEditing }">
-    &lt;div class="memory-card__content">
+<template>
+  <div class="memory-card" :class="{ 'is-editing': isEditing }">
+    <div class="memory-card__content">
       <!-- Imagem -->
-      &lt;img 
+      <img 
         v-if="memoria.tipo === 'imagem'" 
         :src="memoria.url" 
         :alt="memoria.titulo"
@@ -10,47 +10,47 @@
       >
       
       <!-- Vídeo -->
-      &lt;video 
+      <video 
         v-else-if="memoria.tipo === 'video'"
         :src="memoria.url"
         controls
         class="memory-card__video"
-      >&lt;/video>
+      ></video>
       
       <!-- Áudio -->
-      &lt;audio 
+      <audio 
         v-else-if="memoria.tipo === 'audio'"
         :src="memoria.url"
         controls
         class="memory-card__audio"
-      >&lt;/audio>
+      ></audio>
       
       <!-- Texto -->
-      &lt;div 
+      <div 
         v-else
         class="memory-card__text"
         v-html="memoria.conteudo"
-      >&lt;/div>
+      ></div>
 
-      &lt;div class="memory-card__info">
-        &lt;h3 class="memory-card__title">{{ memoria.titulo }}&lt;/h3>
-        &lt;p class="memory-card__date">{{ formatDate(memoria.data) }}&lt;/p>
-        &lt;p class="memory-card__description">{{ memoria.descricao }}&lt;/p>
-      &lt;/div>
-    &lt;/div>
+      <div class="memory-card__info">
+        <h3 class="memory-card__title">{{ memoria.titulo }}</h3>
+        <p class="memory-card__date">{{ formatDate(memoria.data) }}</p>
+        <p class="memory-card__description">{{ memoria.descricao }}</p>
+      </div>
+    </div>
 
-    &lt;div v-if="isEditing" class="memory-card__actions">
-      &lt;button @click="$emit('edit', memoria)" class="btn btn--secondary">
+    <div v-if="isEditing" class="memory-card__actions">
+      <button @click="$emit('edit', memoria)" class="btn btn--secondary">
         Editar
-      &lt;/button>
-      &lt;button @click="$emit('delete', memoria.id)" class="btn btn--accent">
+      </button>
+      <button @click="$emit('delete', memoria.id)" class="btn btn--accent">
         Excluir
-      &lt;/button>
-    &lt;/div>
-  &lt;/div>
-&lt;/template>
+      </button>
+    </div>
+  </div>
+</template>
 
-&lt;script setup>
+<script setup>
 import { defineProps, defineEmits } from 'vue'
 
 const props = defineProps({
@@ -73,11 +73,11 @@ const formatDate = (date) => {
     year: 'numeric'
   })
 }
-&lt;/script>
+</script>
 
-&lt;style lang="scss" scoped>
-@import '@/assets/scss/variables';
-@import '@/assets/scss/mixins';
+<style lang="scss" scoped>
+@use '@/assets/scss/components' as *;
+@use 'sass:color';
 
 .memory-card {
   @include card-base;
@@ -142,4 +142,4 @@ const formatDate = (date) => {
     border: 2px dashed $color-secondary;
   }
 }
-&lt;/style>
+</style>

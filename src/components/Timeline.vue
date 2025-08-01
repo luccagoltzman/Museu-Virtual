@@ -1,27 +1,27 @@
-&lt;template>
-  &lt;div class="timeline" :class="{ 'timeline--vertical': isVertical }">
-    &lt;div class="timeline__line">&lt;/div>
+<template>
+  <div class="timeline" :class="{ 'timeline--vertical': isVertical }">
+    <div class="timeline__line"></div>
     
-    &lt;div 
+    <div 
       v-for="memoria in memoriasSorted" 
       :key="memoria.id"
       class="timeline__item"
       :class="{ 'timeline__item--right': isVertical && isEven(memoria) }"
     >
-      &lt;div class="timeline__point">&lt;/div>
-      &lt;div class="timeline__content">
-        &lt;MemoryCard 
+      <div class="timeline__point"></div>
+      <div class="timeline__content">
+        <MemoryCard 
           :memoria="memoria"
           :is-editing="isEditing"
           @edit="$emit('edit', memoria)"
           @delete="$emit('delete', memoria.id)"
         />
-      &lt;/div>
-    &lt;/div>
-  &lt;/div>
-&lt;/template>
+      </div>
+    </div>
+  </div>
+</template>
 
-&lt;script setup>
+<script setup>
 import { computed } from 'vue'
 import MemoryCard from './MemoryCard.vue'
 
@@ -51,11 +51,11 @@ const memoriasSorted = computed(() => {
 const isEven = (memoria) => {
   return props.memorias.indexOf(memoria) % 2 === 0
 }
-&lt;/script>
+</script>
 
-&lt;style lang="scss" scoped>
-@import '@/assets/scss/variables';
-@import '@/assets/scss/mixins';
+<style lang="scss" scoped>
+@use '@/assets/scss/components' as *;
+@use 'sass:color';
 
 .timeline {
   position: relative;
@@ -162,4 +162,4 @@ const isEven = (memoria) => {
     }
   }
 }
-&lt;/style>
+</style>
